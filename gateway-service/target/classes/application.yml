@@ -1,0 +1,42 @@
+server:
+  port: 9191
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: CAR-ORDER-SERVICE
+          uri: lb://CAR-ORDER-SERVICE
+          predicates:
+            - Path=/order/**
+        - id: TRUCK-PRODUCTION-SERVICE
+          uri: lb://TRUCK-PRODUCTION-SERVICE
+          predicates:
+            - Path=/readytruck/**
+        - id: CAR-PRODUCTION-SERVICE
+          uri: lb://CAR-PRODUCTION-SERVICE
+          predicates:
+            - Path=/readycar/**
+        - id: BODY-FACTORY-SERVICE
+          uri: lb://BODY-FACTORY-SERVICE
+          predicates:
+            - Path=/body/**
+        - id: ENGINE-FACTORY-SERVICE
+          uri: lb://ENGINE-FACTORY-SERVICE
+          predicates:
+            - Path=/engine/**
+        - id: EQUIPMENT-FACTORY-SERVICE
+          uri: lb://EQUIPMENT-FACTORY-SERVICE
+          predicates:
+            - Path=/equipment/**
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
